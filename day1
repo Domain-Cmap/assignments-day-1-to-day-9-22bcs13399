@@ -1,1 +1,502 @@
+""" Problem 1: Sum of Natural Numbers up to N
+Calculate the sum of all natural numbers from 1 to n, where n is a positive
+integer. Use the formula:
+Sum=n×(n+1)/2.
+Take n as input and output the sum of natural numbers from 1 to n ."""
+
+#include<iostream>
+using namespace std;
+int main()
+{
+cout << "Sum upto:";
+int n;
+cin >> n;
+cout << "Sum of " << n << " Natural Numbers: ";
+int sum = n * (n + 1) / 2;
+cout << sum;
+return 0;
+}
+
+"""Problem 2: Check if a Number is Prime.
+Check if a given number n is a prime number. A prime number is a natural
+number greater than 1 that has no positive divisors other than 1 and itself """
+
+#include <iostream>
+using namespace std;
+bool isPrime(int n) {
+ if (n <= 1) {
+ return false;
+ }
+ for (int i = 2; i * i <= n; i++) {
+ if (n % i == 0) {
+ return false;
+ }
+ }
+ return true;
+}
+int main() {
+ int n;
+ cout << "Enter a number: ";
+ cin >> n;
+ if (isPrime(n)) {
+ cout << n << " is a prime number." << endl;
+ } else {
+ cout << n << " is not a prime number." << endl;
+ }
+ return 0;
+}
+
+""" Problem 3: Print Odd Numbers up to N.
+Print all odd numbers between 1 and n, inclusive. Odd numbers are integers that
+are not divisible by 2. These numbers should be printed in ascending order,
+separated by spaces."""
+
+#include <iostream>
+using namespace std;
+void printOddNumbers(int n) {
+ for (int i = 1; i <= n; i += 2) {
+ cout << i << " ";
+ }
+ cout << endl;
+}
+int main() {
+ int n;
+ cout << "Print Odd numbers upto: ";
+ cin >> n;
+ if (n < 1) {
+ cout << "Invalid input! n should be greater than or equal to 1." << endl;
+ return 1;
+ }
+ printOddNumbers(n);
+ return 0;
+}
+
+"""Problem 4: Sum of Odd Numbers up to N.
+Calculate the sum of all odd numbers from 1 to n. An odd number is an integer
+that is not divisible by 2. The sum of odd numbers, iterate through all the
+numbers from 1 to n, check if each number is odd, and accumulate the sum. """
+
+#include <iostream>
+using namespace std;
+void SumOddNumbers(int n)
+{
+ int sum = 0;
+ for (int i = 1; i <= n; i += 2)
+ {
+ sum =sum+i;
+ }
+ cout <<"Sum of odd numbers from 1 to "<<n<<" is "<<sum;
+}
+int main() {
+ int n;
+ cout << "Sum of Odd numbers upto: ";
+ cin >> n;
+ if (n < 1) {
+ cout << "Invalid input! n should be greater than or equal to 1." << endl;
+ return 1;
+ }
+ SumOddNumbers(n);
+ return 0;
+}
+
+""" Problem 5: Print Multiplication Table of a Number.
+Print the multiplication table of a given number n. A multiplication table for a
+number n is a list of products of n with integers from 1 to 10. For example, the
+multiplication table for 3 is:
+3×1=3,3×2=6,…,3×10=30""
+
+#include <iostream>
+using namespace std;
+void multiplicationTable(int n) {
+ for (int i = 1; i <= 10; i++) {
+ cout << n << " × " << i << " = " << n * i << endl;
+ }
+}
+int main() {
+ int n;
+ cout << "Enter a number: ";
+ cin >> n;
+ multiplicationTable(n);
+ return 0;
+}
+
+""" Problem 6: Count Digits in a Number
+ Count the total number of digits in a given number n. The number can be a
+positive integer. For example, for the number 12345, the count of digits is 5. For a
+number like 900000, the count of digits is 6.
+Given an integer n, your task is determining how many digits are present in n. This
+task will help you practice working with loops, number manipulation, and
+conditional logic."""
+
+#include<iostream>
+using namespace std;
+int Count(int n)
+{
+ if (n == 0) {
+ return 1;
+ }
+ int count = 0;
+ while (n != 0) {
+ n /= 10;
+ count++;
+ }
+ return count;
+}
+int main()
+{
+ cout << "Enter the digit:";
+ int n;
+ cin >> n;
+ cout << "Number of Digits in " << n << " is: ";
+ cout << Count(n);
+ return 0;
+}
+
+""" Program 7 : Write a C++ program to check if a number is a palindrome"""
+
+#include <iostream>
+using namespace std;
+int main() {
+int number, originalNumber, reversedNumber = 0,remainder;
+// Input from the user
+cout << "Enter an integer: ";
+cin >> number;
+originalNumber = number;
+// Reverse the number
+while (number != 0) {
+remainder = number % 10;
+reversedNumber = reversedNumber * 10 + remainder;
+number /= 10;
+}
+// Check ifthe original numberis equalto the reversed number
+if (originalNumber == reversedNumber)
+cout << originalNumber << " is a palindrome." << endl;
+else
+cout << originalNumber << " is not a palindrome." << endl;
+return 0;
+}
+
+"""Program 8 : Write a program in C++ Encapsulation using Employee Details . """
+
+#include <iostream>
+using namespace std;
+// Employee class with private data members
+class Employee {
+private:
+int employeeID;
+string employeeName;
+double salary;
+public:
+// Setterfunction for employee ID
+void setEmployeeID(int id) {
+employeeID = id;
+}
+// Getter function for employee ID
+int getEmployeeID() {
+return employeeID;
+}
+// Setter function for employee name
+void setEmployeeName(string name){
+employeeName = name;
+}
+//Getterfunction for employee name
+string getEmployeeName() {
+return employeeName;
+}
+// Setter function for salary
+void setSalary(double s) {
+salary = s;
+}
+// Getter function for salary
+double getSalary() {
+return salary;
+}
+void displayDetails() {
+cout << "Employee ID: " << getEmployeeID() << endl;
+cout << "Employee Name: " << getEmployeeName() << endl;
+cout << "Salary: " << getSalary() << endl;
+}
+};
+int main() {
+Employee emp;
+emp.setEmployeeID(101);
+emp.setEmployeeName("John Doe");
+emp.setSalary(50000.0);
+emp.displayDetails();
+return 0;
+}
+
+"""Program 9 : Write a program in C++ for Inheritance using student’s result of class."""
+
+#include <iostream>
+using namespace std;
+// Base class Student
+class Student {
+protected:
+string name;
+introllNumber;
+public:
+// Setter methods for student details
+void setStudentDetails(string studentName, int studentRollNumber) {
+name = studentName;
+rollNumber = studentRollNumber;
+}
+//Getter methods for student details
+void displayStudentDetails() {
+cout << "Name: " << name << endl;
+cout << "Roll Number: " << rollNumber << endl;
+}
+};
+// Derived class Result
+class Result : public Student {
+private:
+int marks[5];
+float percentage;
+public:
+// Setter method for marks
+void setMarks(int m1, int m2, int m3, int m4, int m5) {
+marks[0] = m1;
+marks[1] = m2;
+marks[2] = m3;
+marks[3] = m4;
+marks[4] = m5;
+}
+// Function to calculate the percentage
+void calculatePercentage() {
+int totalMarks = 0;
+for (int i = 0; i < 5; i++) {
+totalMarks += marks[i];
+}
+percentage = (float)totalMarks / 5;
+}
+void displayResult() {
+displayStudentDetails();
+cout << "Marks obtained in 5 subjects: ";
+for (int i = 0; i < 5; i++) {
+cout << marks[i] << " ";
+}
+cout << endl;
+cout << "Percentage: " << percentage << "%" << endl;
+if (percentage >= 50) {
+cout << "Result: Passed" << endl;
+} else {
+cout << "Result: Failed" << endl;
+}
+}
+};
+int main() {
+Result student1;
+student1.setStudentDetails("KRISHNA", 101);
+student1.setMarks(85, 90, 78, 88, 92);
+student1.calculatePercentage();
+student1.displayResult();
+return 0;
+}
+
+"""PROGRAM 10 : Write a program in C++ for Matrix using function overloading"""
+
+#include <iostream>
+using namespace std;
+class Matrix {
+private:
+int mat[2][2]; // 2x2 matrix for simplicity
+public:
+void inputMatrix() {
+cout << "Enter elements ofthe matrix (2x2): " << endl;
+for (int i = 0; i < 2; i++) {
+for (int j = 0; j < 2; j++) {
+cin >> mat[i][j];
+}
+}
+}
+void displayMatrix() {
+cout << "Matrix: " << endl;
+for (int i = 0; i < 2; i++) {
+for(intj = 0; j < 2; j++){
+cout << mat[i][j] << "";
+}
+cout << endl;
+}
+}
+// Function to add two matrices (Function Overloading)
+void addMatrices(Matrix m) {
+cout << "Matrix after addition: " << endl;
+for (int i = 0; i < 2; i++) {
+for (int j = 0; j < 2; j++) {
+mat[i][j] += m.mat[i][j];
+}
+}
+displayMatrix();
+}
+void subtractMatrices(Matrix m) {
+cout << "Matrix after subtraction: " << endl;
+for (int i = 0; i < 2; i++) {
+for (int j = 0; j < 2; j++) {
+mat[i][j] -= m.mat[i][j];
+}
+}
+displayMatrix();
+}
+};
+int main() {
+Matrix m1, m2;
+cout << "Enterthe first matrix:" << endl;
+m1.inputMatrix();
+cout << "Enterthe second matrix:" << endl;
+m2.inputMatrix();
+cout << "\nFirst Matrix: " << endl;
+m1.displayMatrix();
+cout << "\nSecond Matrix: " << endl;
+m2.displayMatrix();
+m1.addMatrices(m2);
+m1.subtractMatrices(m2);
+return 0;
+}
+
+"""Program 11 : Write a program in C++ for Polymorphism in shape classes. """
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+// Base class Shape
+class Shape {
+public:
+// Virtual function for calculating area
+virtual void area() {
+cout << "Calculating area of a shape..." << endl;
+}
+};
+// Derived class Circle
+class Circle : public Shape {
+private:
+float radius;
+public:
+Circle(float r) : radius(r) {}
+// Overriding the area function for Circle
+void area() override {
+float area = 3.14159 * radius * radius;
+cout << "Area of Circle: " << area << endl;
+}
+};
+// Derived class Rectangle
+class Rectangle : public Shape {
+private:
+float length, width;
+public:
+Rectangle(float l, float w) : length(l), width(w) {}
+// Overriding the area function for Rectangle
+void area() override {
+float area = length * width;
+cout << "Area of Rectangle: " << area << endl;
+}
+};
+// Derived class Triangle
+class Triangle : public Shape {
+private:
+float base, height;
+public:
+Triangle(float b, float h) : base(b), height(h) {}
+// Overriding the area function for Triangle
+void area() override {
+float area = 0.5 * base * height;
+cout << "Area of Triangle: " << area << endl;
+}
+};
+int main() {
+// Creating objects of different shapes
+Shape* shape1 = new Circle(5.0); // Circle with radius 5.0
+Shape* shape2 = new Rectangle(4.0, 6.0); // Rectangle with length 4.0 and width 6.0
+Shape* shape3 = new Triangle(4.0, 6.0); // Triangle with base 4.0 and height 6.0
+// Calling the area function on different shapes using polymorphism
+shape1->area(); // Circle's area
+shape2->area(); // Rectangle's area
+shape3->area(); // Triangle's area
+delete shape1;
+delete shape2;
+delete shape3;
+return 0;
+}
+
+"""Program 12 : Write a program in C++ for Advanced function overloading for
+geometric shapes objectives ."""
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+// Base class Shape
+class Shape {
+public:
+// Virtual function to calculate area
+virtual void calculate() = 0;
+};
+// Derived class Circle
+class Circle : public Shape {
+private:
+float radius;
+public:
+Circle(float r) : radius(r) {}
+//Overloading calculate()to calculate area and perimeterfor Circle
+void calculate() override {
+float area = M_PI * radius * radius;
+float perimeter = 2 * M_PI*radius;
+cout << "Circle: Area = " << area << ", Perimeter = " << perimeter << endl;
+}
+};
+// Derived class Rectangle
+class Rectangle : public Shape {
+private:
+float length, width;
+public:
+Rectangle(float l, float w) : length(l), width(w) {}
+//Overloading calculate()to calculate area and perimeterfor Rectangle
+void calculate() override {
+float area = length * width;
+float perimeter = 2 * (length + width);
+cout << "Rectangle: Area = " << area << ", Perimeter = " << perimeter << endl;
+}
+};
+// Derived class Triangle
+class Triangle : public Shape {
+private:
+float base, height, side1, side2, side3;
+public:
+Triangle(float b, float h, float s1, float s2, float s3)
+: base(b), height(h), side1(s1), side2(s2), side3(s3) {}
+// Overloading calculate()to calculate area and perimeter for Triangle
+void calculate() override {
+float area = 0.5 * base * height;
+float perimeter = side1 + side2 + side3;
+cout << "Triangle: Area = " << area << ", Perimeter = " << perimeter << endl;
+}
+};
+// Advanced Function Overloading: Calculate using different parameters
+class ShapeCalculator {
+public:
+//Overloaded calculate function for Circle (single parameter)
+void calculate(float radius) {
+Circle circle(radius);
+circle.calculate();
+}
+//Overloaded calculate function for Rectangle (two parameters)
+void calculate(float length, float width) {
+Rectangle rectangle(length, width);
+rectangle.calculate();
+}
+// Overloaded calculate function for Triangle (five parameters)
+void calculate(float base,float height,float side1, float side2, float side3){
+Triangle triangle(base, height, side1, side2, side3);
+triangle.calculate();
+}
+};
+int main() {
+ShapeCalculator calculator;
+// Calculate for different shapes using overloaded calculate function
+calculator.calculate(5.0f); // Circle with radius 5.0
+calculator.calculate(4.0f, 6.0f); // Rectangle with length 4.0 and width 6.0
+calculator.calculate(3.0f, 4.0f, 3.0f, 4.0f, 5.0f); // Triangle with base 3.0, height 4.0,
+sides 3.0, 4.0, 5.0
+return 0;
+}
+
+
 
