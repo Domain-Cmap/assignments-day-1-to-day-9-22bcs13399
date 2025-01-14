@@ -1,0 +1,208 @@
+"""Q. Design a stack that supports push, pop, top, and retrieving the minimum element inconstant time.
+Implement the MinStack class:
+● MinStack() initializes the stack object.
+● void push(int val) pushes the element val onto the stack.
+● void pop() removes the element on the top of the stack.
+● int top() gets the top element of the stack.
+● int getMin() retrieves the minimum element in the stack."""
+  #include <iostream>
+#include <stack>
+#include <limits.h>
+class MinStack {
+private:
+std::stack<int> stack;
+std::stack<int> minStack;
+public:
+MinStack() {
+// Constructor initializes an empty stack
+}
+void push(int val) {
+stack.push(val);
+// Push onto minStack if it's empty or val is less than or equal to the current minimumif (minStack.empty() || val <= minStack.top()) {
+minStack.push(val);
+}
+}
+void pop() {
+if (stack.top() == minStack.top()) {
+minStack.pop();
+}
+stack.pop();
+}
+int top() {
+return stack.top();
+}
+int getMin() {
+return minStack.top();
+}
+};
+int main() {
+MinStack minStack;
+minStack.push(-2);
+  minStack.push(0);
+minStack.push(-3);
+std::cout << minStack.getMin() << std::endl; // Output: -3
+minStack.pop();
+std::cout << minStack.top() << std::endl; // Output: 0
+std::cout << minStack.getMin() << std::endl; // Output: -2
+return 0;
+}
+
+"""Q. The school cafeteria offers circular and square sandwiches at lunch break, referred to bynumbers 0 and 1 respectively. All students stand in a queue. Each student either preferssquare or circular sandwiches.
+The number of sandwiches in the cafeteria is equal to the number of students. The sandwichesare placed in a stack. At each step:"""
+  #include <iostream>
+#include <queue>
+#include <vector>
+int countStudentsUnableToEat(std::vector<int>& students, std::vector<int>& sandwiches) {std::queue<int> studentQueue;
+std::queue<int> sandwichStack;
+// Populate the queues
+for (int student : students) {
+studentQueue.push(student);
+}
+for (int sandwich : sandwiches) {
+sandwichStack.push(sandwich);
+}
+int count = 0; // Counter for unsuccessful rotations
+while (!studentQueue.empty() && count < studentQueue.size()) {
+if (studentQueue.front() == sandwichStack.front()) {
+// Student eats the sandwich
+studentQueue.pop();
+sandwichStack.pop();
+count = 0; // Reset counter
+} else {
+// Student moves to the back of the queue
+studentQueue.push(studentQueue.front());
+studentQueue.pop();
+count++;
+}
+}
+// Remaining students are those unable to eat
+return studentQueue.size();
+}
+int main() {
+std::vector<int> students1 = {1, 1, 0, 0};
+std::vector<int> sandwiches1 = {0, 1, 0, 1};
+std::cout << countStudentsUnableToEat(students1, sandwiches1) << std::endl; // Output: 0std::vector<int> students2 = {1, 1, 1, 0, 0, 1};
+std::vector<int> sandwiches2 = {1, 0, 0, 0, 1, 1};
+std::cout << countStudentsUnableToEat(students2, sandwiches2) << std::endl; // Output: 3return 0;
+}
+
+"""Q. Given a circular integer array nums (i.e., the next element of nums[nums.length - 1] isnums[0]), return the next greater number for every element in nums.
+The next greater number of a number x is the first greater number to its traversing-order nextin the array, which means you could search circularly to find its next greater number. If itdoesn't exist, return -1 for this number."""
+  #include <iostream>
+#include <vector>
+#include <stack>
+std::vector<int> nextGreaterElements(const std::vector<int>& nums) {
+int n = nums.size();
+std::vector<int> result(n, -1); // Initialize result array with -1
+std::stack<int> stk; // Stack to store indices
+// Iterate through the array twice (to simulate circular behavior)
+for (int i = 0; i < 2 * n; ++i) {
+int num = nums[i % n];
+// Check for next greater element
+while (!stk.empty() && nums[stk.top()] < num) {
+result[stk.top()] = num;
+stk.pop();
+}
+// Push index onto stack for first pass only
+if (i < n) {
+stk.push(i);
+}
+}
+return result;
+}
+int main() {
+std::vector<int> nums1 = {1, 2, 1};
+std::vector<int> result1 = nextGreaterElements(nums1);
+for (int num : result1) {
+std::cout << num << " ";
+}
+std::cout << std::endl; // Output: 2 -1 2
+std::vector<int> nums2 = {1, 2, 3, 4, 3};
+std::vector<int> result2 = nextGreaterElements(nums2);
+for (int num : result2) {
+std::cout << num << " ";
+}
+std::cout << std::endl; // Output: 2 3 4 -1 4
+return 0;
+}
+
+"""Q. You are given an array of integers nums, there is a sliding window of size k which is movingfrom the very left of the array to the very right. You can only see the k numbers in the window.Each time the sliding window moves right by one position.
+Return the max sliding window."""
+  #include <iostream>
+#include <vector>
+#include <deque>
+std::vector<int> maxSlidingWindow(const std::vector<int>& nums, int k) {
+std::vector<int> result;
+std::deque<int> dq; // Will store indices of nums
+for (int i = 0; i < nums.size(); ++i) {
+// Remove elements out of the current window
+if (!dq.empty() && dq.front() == i - k) {
+dq.pop_front();
+}
+// Remove elements smaller than the current element from the back
+while (!dq.empty() && nums[dq.back()] < nums[i]) {
+dq.pop_back();
+}
+// Add the current element's index to the deque
+dq.push_back(i);
+// Add the maximum element of the current window to the result
+if (i >= k - 1) {
+result.push_back(nums[dq.front()]);
+}
+}
+return result;
+}
+int main() {
+std::vector<int> nums1 = {1, 3, -1, -3, 5, 3, 6, 7};
+int k1 = 3;
+std::vector<int> result1 = maxSlidingWindow(nums1, k1);
+for (int num : result1) {
+std::cout << num << " ";
+}
+std::cout << std::endl; // Output: 3 3 5 5 6 7
+std::vector<int> nums2 = {1};
+int k2 = 1;
+std::vector<int> result2 = maxSlidingWindow(nums2, k2);
+for (int num : result2) {
+std::cout << num << " ";
+}
+std::cout << std::endl; // Output: 1
+return 0;
+}
+
+"""There are a number of plants in a garden. Each of the plants has been treated with someamount of pesticide. After each day, if any plant has more pesticide than the plant on its left,being weaker than the left one, it dies.
+You are given the initial values of the pesticide in each of the plants. Determine the number ofdays after which no plant dies, i.e. the time after which there is no plant with more pesticidecontent than the plant to its left."""
+  #include <iostream>
+#include <vector>
+#include <stack>
+#include <algorithm>
+int poisonousPlants(const std::vector<int>& p) {
+int n = p.size();
+std::vector<int> days(n, 0); // Days each plant takes to die
+std::stack<int> s; // Stack to keep track of plant indices
+int maxDays = 0; // Maximum days required for plants to stop dying
+  for (int i = 0; i < n; ++i) {
+// Check if current plant will die
+int day = 0;
+while (!s.empty() && p[s.top()] >= p[i]) {
+day = std::max(day, days[s.top()]);
+s.pop();
+}
+// If stack is not empty, current plant will die
+if (!s.empty()) {
+days[i] = day + 1;
+}
+maxDays = std::max(maxDays, days[i]);
+s.push(i);
+}
+return maxDays;
+}
+int main() {
+std::vector<int> p1 = {3, 6, 2, 7, 5};
+std::cout << poisonousPlants(p1) << std::endl; // Output: 2
+std::vector<int> p2 = {6, 5, 8, 4, 7, 10, 9};
+std::cout << poisonousPlants(p2) << std::endl; // Output: 2
+return 0;
+}
+
+"""
