@@ -1,0 +1,139 @@
+"""You are given an image represented by an m x n grid of integers image, where image[i][j] represents
+the pixel value of the image. You are also given three integers sr, sc, and color. Your task is to perform
+a flood fill on the image starting from the pixel image[sr][sc].
+To perform a flood fill:
+Begin with the starting pixel and change its color to color.
+Perform the same process for each pixel that is directly adjacent (pixels that share a side with the
+original pixel, either horizontally or vertically) and shares the same color as the starting pixel.
+Keep repeating this process by checking neighboring pixels of the updated pixels and modifying their
+color if it matches the original color of the starting pixel.
+The process stops when there are no more adjacent pixels of the original color to update.
+Return the modified image after performing the flood fill."""
+  def floodFill(image, sr, sc, color):
+ rows, cols = len(image), len(image[0])
+ original_color = image[sr][sc]
+ if original_color == color:
+ return image
+ def dfs(r, c):
+ if r < 0 or r >= rows or c < 0 or c >= cols or image[r][c] != original_color:
+ return
+ image[r][c] = color
+ dfs(r + 1, c)
+ dfs(r - 1, c)
+ dfs(r, c + 1)
+ dfs(r, c - 1)
+ dfs(sr, sc)
+ return image
+image1 = [[1, 1, 1], [1, 1, 0], [1, 0, 1]]
+sr1, sc1, color1 = 1, 1, 2
+print(floodFill(image1, sr1, sc1, color1))
+
+  """Given a connected undirected graph represented by an adjacency list adj, which is a vector of vectors
+where each adj[i] represents the list of vertices connected to vertex i. Perform a Depth First Traversal
+(DFS) starting from vertex 0, visiting vertices from left to right as per the adjacency list, and return a
+list containing the DFS traversal of the graph."""
+def dfs_traversal(adj):
+ def dfs(node, visited, result):
+ visited[node] = True
+ result.append(node)
+ for neighbor in adj[node]:
+ if not visited[neighbor]:
+ dfs(neighbor, visited, result)
+ visited = [False] * len(adj)
+ result = []
+   dfs(0, visited, result)
+ return result
+adj = [[2, 3, 1], [0], [0, 4], [0], [2]]
+output = dfs_traversal(adj)
+print(output)
+
+"""Given an m x n grid of characters board and a string word, return true if word exists in the grid.
+The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are
+horizontally or vertically neighboring. The same letter cell may not be used more than once."""
+def exist(board, word):
+ rows, cols = len(board), len(board[0])
+
+ def dfs(r, c, index):
+ if index == len(word):
+ return True
+ if r < 0 or r >= rows or c < 0 or c >= cols or board[r][c] != word[index]:
+ return False
+ temp, board[r][c] = board[r][c], '#'
+ found = (dfs(r + 1, c, index + 1) or
+ dfs(r - 1, c, index + 1) or
+ dfs(r, c + 1, index + 1) or
+ dfs(r, c - 1, index + 1))
+ board[r][c] = temp
+ return found
+ for row in range(rows):
+ for col in range(cols):
+ if board[row][col] == word[0] and dfs(row, col, 0):
+ return True
+
+ return False
+board1 = [["A", "B", "C", "E"],
+ ["S", "F", "C", "S"],
+ ["A", "D", "E", "E"]]
+word1 = "ABCCED"
+print(exist(board1, word1))
+
+   """You are given an m x n grid where each cell can have one of three values:
+0 representing an empty cell,
+1 representing a fresh orange, or
+2 representing a rotten orange.
+Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
+Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is
+impossible, return -1."""
+def orangesRotting(grid):
+ rows, cols = len(grid), len(grid[0])
+ queue = deque()
+ fresh_count = 0
+ for r in range(rows):
+ for c in range(cols):
+ if grid[r][c] == 2:
+ queue.append((r, c))
+ elif grid[r][c] == 1:
+ fresh_count += 1
+ if fresh_count == 0:
+ return 0
+ minutes_passed = 0
+ directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+ while queue:
+ for _ in range(len(queue)):
+ x, y = queue.popleft()
+ for dx, dy in directions:
+ nx, ny = x + dx, y + dy
+ if 0 <= nx < rows and 0 <= ny < cols and grid[nx][ny] == 1:
+ grid[nx][ny] = 2
+ queue.append((nx, ny))
+ fresh_count -= 1
+ minutes_passed += 1
+ return minutes_passed - 1 if fresh_count == 0 else -1
+grid1 = [[2, 1, 1], [1, 1, 0], [0, 1, 1]]
+print(orangesRotting(grid1)) 
+
+   """You are given a network of n nodes, labeled from 1 to n. You are also given times, a list of travel
+times as directed edges times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and
+wi is the time it takes for a signal to travel from source to target.
+We will send a signal from a given node k. Return the minimum time it takes for all the n nodes to
+receive the signal. If it is impossible for all the n nodes to receive the signal, return -1"""
+  import heapq
+from collections import defaultdict
+def networkDelayTime(times, n, k):
+ graph = defaultdict(list)
+ for u, v, w in times:
+ graph[u].append((v, w))
+ min_heap = [(0, k)]
+ shortest_times = {}
+ while min_heap:
+ current_time, node = heapq.heappop(min_heap)
+ if node in shortest_times:
+ continue
+ shortest_times[node] = current_time
+ for neighbor, weight in graph[node]:
+ if neighbor not in shortest_times:
+ heapq.heappush(min_heap, (current_time + weight, neighbor))
+ return max(shortest_times.values()) if len(shortest_times) == n else -1
+times1 = [[2, 1, 1], [2, 3, 1], [3, 4, 1]]
+n1, k1 = 4, 2
+print(networkDelayTime(times1, n1, k1)) # Output: 2
