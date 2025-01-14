@@ -1,0 +1,107 @@
+"""1. N-th Tribonacci Number """
+def tribonacci(n: int) -> int:
+ if n == 0:
+ return 0
+ if n in (1, 2):
+ return 1
+ dp = [0, 1, 1]
+ for i in range(3, n + 1):
+ dp.append(dp[i - 1] + dp[i - 2] + dp[i - 3])
+ return dp[n]
+print(tribonacci(4)) 
+
+""".Climbing Stairs
+You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or
+2 steps. In how many distinct ways can you climb to the top? """
+   def climbStairs(n: int) -> int:
+ if n == 1:
+ return 1
+ dp = [0] * (n + 1)
+ dp[1], dp[2] = 1, 2
+ for i in range(3, n + 1):
+ dp[i] = dp[i - 1] + dp[i - 2]
+ return dp[n]
+print(climbStairs(2))
+
+   """Longest Palindromic Substring
+Given a string s, return the longest palindromic substring in s. """
+   def longestPalindrome(s: str) -> str:
+ def expand_around_center(left, right):
+ while left >= 0 and right < len(s) and s[left] == s[right]:
+ left -= 1
+ right += 1
+ return left + 1, right - 1
+ start, end = 0, 0
+ for i in range(len(s)):
+ l1, r1 = expand_around_center(i, i)
+ l2, r2 = expand_around_center(i, i + 1)
+ if r1 - l1 > end - start:
+ start, end = l1, r1
+ if r2 - l2 > end - start:
+ start, end = l2, r2
+ return s[start:end + 1]
+print(longestPalindrome("babad"))
+
+   """.Maximal Rectangle
+Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing
+only 1's and return its area."""
+   def maximalRectangle(matrix):
+ if not matrix:
+ return 0
+ def largest_histogram_area(heights):
+ stack = []
+ max_area = 0
+ heights.append(0)
+ for i, h in enumerate(heights):
+ while stack and heights[stack[-1]] > h:
+ height = heights[stack.pop()]
+ width = i if not stack else i - stack[-1] - 1
+ max_area = max(max_area, height * width)
+ stack.append(i)
+ return max_area
+ cols = len(matrix[0])
+ heights = [0] * cols
+ max_area = 0
+ for row in matrix:
+ for j in range(cols):
+ heights[j] = heights[j] + 1 if row[j] == "1" else 0
+ max_area = max(max_area, largest_histogram_area(heights))
+ return max_area 
+
+   """.Cherry Pickup
+You are given an n x n grid representing a field of cherries, each cell is one of three possible
+integers.
+0 means the cell is empty, so you can pass through,
+1 means the cell contains a cherry that you can pick up and pass through, or
+-1 means the cell contains a thorn that blocks your way.
+Return the maximum number of cherries you can collect by following the rules below:
+Starting at the position (0, 0) and reaching (n - 1, n - 1) by moving right or down through valid
+path cells (cells with value 0 or 1).
+After reaching (n - 1, n - 1), returning to (0, 0) by moving left or up through valid path cells.
+When passing through a path cell containing a cherry, you pick it up, and the cell becomes an
+empty cell 0.
+If there is no valid path between (0, 0) and (n - 1, n - 1), then no cherries can be collected. """
+  def cherryPickup(grid):
+ n = len(grid)
+ dp = [[[float('-inf')] * n for _ in range(n)] for __ in range(n)]
+ dp[0][0][0] = grid[0][0]
+ for r1 in range(n):
+ for c1 in range(n):
+ for c2 in range(n):
+ r2 = r1 + c1 - c2
+ if 0 <= r2 < n and grid[r1][c1] != -1 and grid[r2][c2] != -1:
+ cherries = grid[r1][c1]
+ if c1 != c2:
+ cherries += grid[r2][c2]
+ prev = max(
+ dp[r1 - 1][c1][c2] if r1 > 0 else float('-inf'),
+ dp[r1][c1 - 1][c2] if c1 > 0 else float('-inf'),
+ dp[r1 - 1][c1][c2 - 1] if r1 > 0 and c2 > 0 else float('-inf'),
+ dp[r1][c1 - 1][c2 - 1] if c1 > 0 and c2 > 0 else float('-inf'),
+ )
+ dp[r1][c1][c2] = prev + cherries if prev != float('-inf') else float('-inf')
+ return max(0, dp[n - 1][n - 1][n - 1])
+grid = [[0, 1, -1], [1, 0, -1], [1, 1, 1]]
+print(cherryPickup(grid)) 
+  
+  
